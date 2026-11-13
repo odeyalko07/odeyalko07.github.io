@@ -11,10 +11,15 @@
             try {
                 var theme = localStorage.getItem('odeyalko_theme') || 'dark';
                 var glass = localStorage.getItem('odeyalko_glass');
+                var shadows = localStorage.getItem('odeyalko_shadows');
                 if (glass === null) glass = 'on';
+                if (shadows === null) shadows = 'on';
                 document.documentElement.setAttribute('data-theme', theme);
-                if (glass === 'off') {
+                if (glass === 'off' || theme === 'base') {
                     document.documentElement.classList.add('no-glass');
+                }
+                if (shadows === 'off' || theme === 'base') {
+                    document.documentElement.classList.add('no-shadows');
                 }
             } catch (e) {}
         })();
@@ -27,25 +32,44 @@
     <header class="header glass">
         <div class="container header-inner">
             <h1 class="logo">Odeyalko07_</h1>
-            <button class="settings-btn glass-pill" id="settingsBtn" aria-expanded="false" aria-controls="settingsMenu" title="Настройки">
-                ⚙️ Настройки
-            </button>
-        </div>
 
-        <!-- Всплывающее меню настроек -->
-        <div class="settings-menu glass" id="settingsMenu" hidden>
-            <h2 class="settings-title">Настройки</h2>
+            <!-- Обёртка: кнопка настроек + меню -->
+            <div class="settings-wrap">
+                <button class="settings-btn glass-pill" id="settingsBtn" aria-expanded="false" aria-controls="settingsMenu" title="Настройки">
+                    ⚙️ Настройки
+                </button>
 
-            <label class="settings-row">
-                <span>Liquid Glass</span>
-                <input type="checkbox" id="glassToggle" class="switch">
-            </label>
+                <!-- Всплывающее меню настроек -->
+                <div class="settings-menu glass" id="settingsMenu" hidden>
+                    <div class="settings-header">
+                        <h2 class="settings-title">Настройки</h2>
+                        <button type="button" class="settings-close" id="settingsCloseBtn" title="Закрыть" aria-label="Закрыть настройки">
+                            ✕
+                        </button>
+                    </div>
 
-            <div class="settings-row">
-                <span>Тема</span>
-                <div class="theme-switch" role="group" aria-label="Тема">
-                    <button type="button" class="theme-option" data-theme-value="light">Светлая</button>
-                    <button type="button" class="theme-option" data-theme-value="dark">Тёмная</button>
+                    <label class="settings-row">
+                        <span>Liquid Glass</span>
+                        <input type="checkbox" id="glassToggle" class="switch">
+                    </label>
+
+                    <label class="settings-row">
+                        <span>Тени</span>
+                        <input type="checkbox" id="shadowsToggle" class="switch">
+                    </label>
+
+                    <div class="settings-row">
+                        <span>Тема</span>
+                        <div class="theme-switch" role="group" aria-label="Тема">
+                            <button type="button" class="theme-option" data-theme-value="light">Светлая</button>
+                            <button type="button" class="theme-option" data-theme-value="dark">Тёмная</button>
+                            <button type="button" class="theme-option" data-theme-value="base">База</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="reset-btn" id="resetSettingsBtn">
+                        ↺ Сбросить настройки
+                    </button>
                 </div>
             </div>
         </div>
@@ -86,22 +110,29 @@
             </div>
         </section>
 
-        <!-- Раздел новостей (сворачиваемый) -->
+        <!-- Раздел новостей (сворачиваемый, закрыт по умолчанию) -->
         <section id="news" class="glass-section glass">
-            <button class="toggle-btn" id="newsToggle" aria-expanded="true">
+            <button class="toggle-btn" id="newsToggle" aria-expanded="false">
                 <span class="toggle-icon">▼</span>
                 Новости
             </button>
-            <div class="section-content" id="newsContent">
-                <article class="news-item glass-inner">
-                    <div class="news-meta">
-                        <span class="news-date">
-                            <span class="news-time">18:24 13.11.2026</span>
-                            <span class="news-tz">— Красноярское время (UTC +07:00)</span>
-                        </span>
-                    </div>
-                    <p class="news-text">Вкладка "Новости" готова!</p>
-                </article>
+            <div class="section-content collapsed" id="newsContent">
+                <div class="items-list" id="newsList">
+                    <article class="news-item glass-inner">
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <span class="news-time">18:24 13.11.2026</span>
+                                <span class="news-tz">— Красноярское время (UTC +07:00)</span>
+                            </span>
+                        </div>
+                        <p class="news-text">Вкладка "Новости" готова!</p>
+                    </article>
+                </div>
+                <div class="pagination" id="newsPagination" hidden>
+                    <button type="button" class="page-btn glass-pill" id="newsPrev" disabled>← Назад</button>
+                    <span class="page-info" id="newsPageInfo">1 / 1</span>
+                    <button type="button" class="page-btn glass-pill" id="newsNext">Вперёд →</button>
+                </div>
             </div>
         </section>
 
@@ -112,37 +143,65 @@
                 Мои проекты
             </button>
             <div class="section-content" id="projectsContent">
-                <div class="empty-state glass-inner">
-                    <p>🚧 Пока здесь пусто. Скоро появятся мои проекты!</p>
+                <div class="items-list" id="projectsList">
+                    <!-- Заглушка: удали этот блок, когда появятся реальные проекты -->
+                    <div class="empty-state glass-inner">
+                        <p>🚧 Пока здесь пусто. Скоро появятся мои проекты!</p>
+                    </div>
+
+                    <!--
+                    ШАБЛОН ПРОЕКТА — скопируй этот блок и вставь ниже, чтобы добавить новый проект.
+                    Замени title, описание и ссылку на свои.
+
+                    <article class="project-item glass-inner">
+                        <h3 class="project-title">Название проекта</h3>
+                        <p class="project-desc">Краткое описание проекта — что это и зачем.</p>
+                        <a href="https://example.com" target="_blank" rel="noopener" class="project-link glass-pill">
+                            Перейти →
+                        </a>
+                    </article>
+                    -->
+                </div>
+                <div class="pagination" id="projectsPagination" hidden>
+                    <button type="button" class="page-btn glass-pill" id="projectsPrev" disabled>← Назад</button>
+                    <span class="page-info" id="projectsPageInfo">1 / 1</span>
+                    <button type="button" class="page-btn glass-pill" id="projectsNext">Вперёд →</button>
                 </div>
             </div>
         </section>
 
-        <!-- Реклама Minecraft-сервера -->
-        <section id="server" class="server-ad glass">
-            <div class="server-ad-header">
-                <h2>🎮 Мой Minecraft-сервер Pumpky</h2>
-                <span class="badge glass-pill">Java Edition</span>
-            </div>
-            <p class="server-desc">
-                Заходи на мой уютный ванильный сервер! Играем вместе, строим, исследуем мир.
-            </p>
+        <!-- Реклама Minecraft-сервера (сворачиваемая) -->
+        <section id="server" class="glass-section glass">
+            <button class="toggle-btn" id="serverToggle" aria-expanded="true">
+                <span class="toggle-icon">▼</span>
+                🎮 Мой Minecraft-сервер Pumpky
+            </button>
+            <div class="section-content" id="serverContent">
+                <div class="server-ad-inner">
+                    <div class="server-ad-header">
+                        <span class="badge glass-pill">Java Edition</span>
+                    </div>
+                    <p class="server-desc">
+                        Заходи на мой уютный ванильный сервер! Играем вместе, строим, исследуем мир.
+                    </p>
 
-            <div class="server-info">
-                <div class="info-card glass-inner">
-                    <span class="info-label">IP сервера</span>
-                    <code class="info-value" id="serverIp">pumpky.vanilla.cool</code>
-                    <button class="copy-btn glass-pill" id="copyIpBtn" title="Скопировать IP">📋</button>
-                </div>
-                <div class="info-card glass-inner">
-                    <span class="info-label">Версия</span>
-                    <span class="info-value">Minecraft Java Edition 1.13.2 – 1.19.3</span>
+                    <div class="server-info">
+                        <div class="info-card glass-inner">
+                            <span class="info-label">IP сервера</span>
+                            <code class="info-value" id="serverIp">pumpky.vanilla.cool</code>
+                            <button class="copy-btn glass-pill" id="copyIpBtn" title="Скопировать IP">📋</button>
+                        </div>
+                        <div class="info-card glass-inner">
+                            <span class="info-label">Версия</span>
+                            <span class="info-value">Minecraft Java Edition 1.13.2 – 1.19.3</span>
+                        </div>
+                    </div>
+
+                    <a href="https://pumpkymarket.trademc.org" target="_blank" rel="noopener" class="cta-btn glass-pill">
+                        🛒 Перейти на сайт сервера
+                    </a>
                 </div>
             </div>
-
-            <a href="https://pumpkymarket.trademc.org" target="_blank" rel="noopener" class="cta-btn glass-pill">
-                🛒 Перейти на сайт сервера
-            </a>
         </section>
     </main>
 
@@ -151,6 +210,13 @@
             <p>© 2026 Odeyalko07_. Все права защищены. <span class="footer-tz">Время указано по Красноярску (UTC +07:00)</span></p>
         </div>
     </footer>
+
+    <!-- Тост «Скопировано» с таймером (появляется в правом нижнем углу) -->
+    <div class="toast glass" id="copyToast" role="status" aria-live="polite">
+        <span class="toast-icon">✅</span>
+        <span class="toast-text">Скопировано</span>
+        <span class="toast-timer" id="copyToastTimer">4</span>
+    </div>
 
     <script src="scripts/main.js"></script>
 </body>

@@ -5,7 +5,6 @@
     box-sizing: border-box;
 }
 
-/* === Переменные темы: тёмная по умолчанию === */
 :root,
 html[data-theme="dark"] {
     --bg: #0a0a10;
@@ -23,7 +22,7 @@ html[data-theme="dark"] {
     --inner-border: rgba(255, 255, 255, 0.12);
     --pill-bg: rgba(255, 255, 255, 0.06);
     --pill-border: rgba(255, 255, 255, 0.2);
-    --shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.25);
+    --shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 8px 24px rgba(0, 0, 0, 0.7);
     --inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.25);
     --inset-bottom: inset 0 -1px 0 rgba(255, 255, 255, 0.04);
     --menu-bg: rgba(22, 22, 32, 0.96);
@@ -34,6 +33,7 @@ html[data-theme="dark"] {
         rgba(255, 255, 255, 0.08) 55%,
         transparent 70%
     );
+    --cta-text: #fff;
 }
 
 html[data-theme="light"] {
@@ -52,7 +52,7 @@ html[data-theme="light"] {
     --inner-border: rgba(0, 0, 0, 0.08);
     --pill-bg: rgba(255, 255, 255, 0.7);
     --pill-border: rgba(0, 0, 0, 0.1);
-    --shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.15);
     --inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.9);
     --inset-bottom: inset 0 -1px 0 rgba(0, 0, 0, 0.04);
     --menu-bg: rgba(255, 255, 255, 0.97);
@@ -63,6 +63,31 @@ html[data-theme="light"] {
         rgba(255, 255, 255, 0.25) 55%,
         transparent 70%
     );
+    --cta-text: #1a1a22;
+}
+
+html[data-theme="base"] {
+    --bg: #008080;
+    --text: #000000;
+    --text-dim: #000000;
+    --text-faint: #333333;
+    --accent: #000080;
+    --accent2: #000080;
+    --surface: #c0c0c0;
+    --surface-strong: #c0c0c0;
+    --border: #808080;
+    --border-top: #ffffff;
+    --border-bottom: #808080;
+    --inner-bg: #ffffff;
+    --inner-border: #808080;
+    --pill-bg: #c0c0c0;
+    --pill-border: #808080;
+    --shadow: none;
+    --inset-top: none;
+    --inset-bottom: none;
+    --menu-bg: #c0c0c0;
+    --glare: none;
+    --cta-text: #000000;
 }
 
 body {
@@ -95,11 +120,13 @@ body {
     pointer-events: none;
 }
 
-/* В светлой теме точки видны — приглушаем через mix-blend-mode,
-   чтобы они не «выжигали» глаза на светлом фоне */
 html[data-theme="light"] .bg-dot {
     mix-blend-mode: multiply;
     opacity: 0.85;
+}
+
+html[data-theme="base"] .bg-dots {
+    display: none;
 }
 
 .container {
@@ -111,11 +138,9 @@ html[data-theme="light"] .bg-dot {
     z-index: 1;
 }
 
-/* === LIQUID GLASS ===
-   position: relative нужен, чтобы блик ::before позиционировался внутри блока. */
+/* === LIQUID GLASS === */
 .glass {
     position: relative;
-    overflow: hidden;
     background:
         linear-gradient(
             135deg,
@@ -135,17 +160,16 @@ html[data-theme="light"] .bg-dot {
         var(--shadow);
 }
 
-/* Статичный блик-«отражение» на стекле. Не анимируется, не лагает. */
 .glass::before {
     content: '';
     position: absolute;
     inset: 0;
     background: var(--glare);
+    border-radius: inherit;
     pointer-events: none;
     z-index: 0;
 }
 
-/* Контент внутри стекла — поверх блика */
 .glass > * {
     position: relative;
     z-index: 1;
@@ -165,12 +189,12 @@ html[data-theme="light"] .bg-dot {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.16),
         inset 0 -1px 0 rgba(255, 255, 255, 0.03),
-        0 4px 16px rgba(0, 0, 0, 0.25);
+        0 12px 32px rgba(0, 0, 0, 0.7),
+        0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .glass-pill {
     position: relative;
-    overflow: hidden;
     background:
         linear-gradient(
             180deg,
@@ -184,7 +208,8 @@ html[data-theme="light"] .bg-dot {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.28),
         inset 0 -1px 0 rgba(255, 255, 255, 0.04),
-        0 4px 16px rgba(0, 0, 0, 0.25);
+        0 8px 24px rgba(0, 0, 0, 0.7),
+        0 3px 10px rgba(0, 0, 0, 0.5);
     transition: transform 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -193,6 +218,7 @@ html[data-theme="light"] .bg-dot {
     position: absolute;
     inset: 0;
     background: var(--glare);
+    border-radius: inherit;
     pointer-events: none;
     z-index: 0;
 }
@@ -208,16 +234,267 @@ html.no-glass .glass-inner,
 html.no-glass .glass-pill {
     background: var(--surface-strong);
     backdrop-filter: none;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5);
     border-color: var(--border);
     border-top-color: var(--border);
     border-bottom-color: var(--border);
 }
 
-/* Блики при отключённом стекле убираем */
 html.no-glass .glass::before,
 html.no-glass .glass-pill::before {
     display: none;
+}
+
+/* === Отключение теней === */
+html.no-shadows .glass,
+html.no-shadows .glass-inner,
+html.no-shadows .glass-pill,
+html.no-shadows .header,
+html.no-shadows .footer,
+html.no-shadows .settings-menu,
+html.no-shadows .toast,
+html.no-shadows .news-item,
+html.no-shadows .project-item,
+html.no-shadows .empty-state,
+html.no-shadows .server-ad-inner,
+html.no-shadows .info-card,
+html.no-shadows .badge,
+html.no-shadows .news-date,
+html.no-shadows .toast-timer,
+html.no-shadows .settings-close,
+html.no-shadows .reset-btn,
+html.no-shadows .switch,
+html.no-shadows .theme-switch {
+    box-shadow: none !important;
+}
+
+html.no-shadows .header::after {
+    box-shadow: none !important;
+}
+
+html.no-shadows .social-link:hover,
+html.no-shadows .project-link:hover,
+html.no-shadows .copy-btn:hover,
+html.no-shadows .cta-btn:hover,
+html.no-shadows .settings-close:hover,
+html.no-shadows .reset-btn:hover {
+    box-shadow: none !important;
+}
+
+/* === ТЕМА «БАЗА» === */
+html[data-theme="base"] *,
+html[data-theme="base"] *::before,
+html[data-theme="base"] *::after {
+    border-radius: 0 !important;
+    animation: none !important;
+    transition: none !important;
+    text-shadow: none !important;
+    scroll-behavior: auto !important;
+}
+
+html[data-theme="base"] body {
+    font-family: 'Tahoma', 'MS Sans Serif', 'Segoe UI', sans-serif;
+    background: #008080;
+    color: #000;
+}
+
+html[data-theme="base"] .bg-dots {
+    display: none !important;
+}
+
+html[data-theme="base"] .glass,
+html[data-theme="base"] .glass-inner,
+html[data-theme="base"] .glass-pill,
+html[data-theme="base"] .header,
+html[data-theme="base"] .footer,
+html[data-theme="base"] .server-ad-inner,
+html[data-theme="base"] .news-item,
+html[data-theme="base"] .project-item,
+html[data-theme="base"] .empty-state,
+html[data-theme="base"] .info-card {
+    background: #c0c0c0 !important;
+    border: 2px solid !important;
+    border-color: #ffffff #808080 #808080 #ffffff !important;
+    box-shadow: none !important;
+    color: #000 !important;
+}
+
+html[data-theme="base"] .glass::before,
+html[data-theme="base"] .glass-pill::before,
+html[data-theme="base"] .badge::before,
+html[data-theme="base"] .server-ad-inner::before {
+    display: none !important;
+}
+
+html[data-theme="base"] .header {
+    border-radius: 0;
+}
+
+html[data-theme="base"] .header::after {
+    display: none;
+}
+
+html[data-theme="base"] .logo,
+html[data-theme="base"] .hero h2 {
+    background: none !important;
+    -webkit-text-fill-color: #000 !important;
+    color: #000 !important;
+    font-weight: 700;
+}
+
+html[data-theme="base"] .hero p,
+html[data-theme="base"] .server-desc,
+html[data-theme="base"] .project-desc,
+html[data-theme="base"] .news-tz,
+html[data-theme="base"] .info-label,
+html[data-theme="base"] .footer,
+html[data-theme="base"] .footer-tz,
+html[data-theme="base"] .empty-state {
+    color: #000 !important;
+}
+
+html[data-theme="base"] .info-value,
+html[data-theme="base"] .news-time {
+    color: #000080 !important;
+    font-family: 'Courier New', monospace;
+}
+
+html[data-theme="base"] .news-date {
+    background: #c0c0c0 !important;
+    border: 1px solid #808080 !important;
+    color: #000 !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="base"] button,
+html[data-theme="base"] .settings-btn,
+html[data-theme="base"] .toggle-btn,
+html[data-theme="base"] .theme-option,
+html[data-theme="base"] .reset-btn,
+html[data-theme="base"] .page-btn,
+html[data-theme="base"] .copy-btn,
+html[data-theme="base"] .settings-close,
+html[data-theme="base"] .social-link,
+html[data-theme="base"] .project-link,
+html[data-theme="base"] .cta-btn {
+    background: #c0c0c0 !important;
+    color: #000 !important;
+    border: 2px solid !important;
+    border-color: #ffffff #808080 #808080 #ffffff !important;
+    box-shadow: none !important;
+    font-family: 'Tahoma', 'MS Sans Serif', 'Segoe UI', sans-serif !important;
+    font-weight: 400 !important;
+    text-decoration: none !important;
+}
+
+html[data-theme="base"] button:active,
+html[data-theme="base"] .settings-btn:active,
+html[data-theme="base"] .toggle-btn:active,
+html[data-theme="base"] .theme-option:active,
+html[data-theme="base"] .reset-btn:active,
+html[data-theme="base"] .page-btn:active,
+html[data-theme="base"] .copy-btn:active,
+html[data-theme="base"] .settings-close:active,
+html[data-theme="base"] .social-link:active,
+html[data-theme="base"] .project-link:active,
+html[data-theme="base"] .cta-btn:active {
+    border-color: #808080 #ffffff #ffffff #808080 !important;
+    transform: none !important;
+}
+
+html[data-theme="base"] button:hover,
+html[data-theme="base"] .settings-btn:hover,
+html[data-theme="base"] .toggle-btn:hover,
+html[data-theme="base"] .theme-option:hover,
+html[data-theme="base"] .reset-btn:hover,
+html[data-theme="base"] .page-btn:hover,
+html[data-theme="base"] .copy-btn:hover,
+html[data-theme="base"] .settings-close:hover,
+html[data-theme="base"] .social-link:hover,
+html[data-theme="base"] .project-link:hover,
+html[data-theme="base"] .cta-btn:hover {
+    background: #c0c0c0 !important;
+    color: #000 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="base"] .theme-option.active {
+    background: #000080 !important;
+    color: #ffffff !important;
+    border-color: #808080 #ffffff #ffffff #808080 !important;
+}
+
+/* === Тумблеры в теме «База» === */
+html[data-theme="base"] .switch {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px !important;
+    height: 20px !important;
+    border: 2px solid !important;
+    border-color: #808080 #ffffff #ffffff #808080 !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    flex-shrink: 0;
+    position: relative;
+}
+
+html[data-theme="base"] .switch::after {
+    display: none !important;
+}
+
+html[data-theme="base"] .switch:checked {
+    background: #ffffff !important;
+}
+
+html[data-theme="base"] .switch:checked::before {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    line-height: 1;
+}
+
+html[data-theme="base"] .switch:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* === Переключатель темы в теме «База» === */
+html[data-theme="base"] .theme-switch {
+    border: 2px solid !important;
+    border-color: #808080 #ffffff #ffffff #808080 !important;
+    background: #c0c0c0 !important;
+    box-shadow: none !important;
+    overflow: visible;
+    display: inline-flex;
+}
+
+html[data-theme="base"] .theme-option {
+    border: none !important;
+    padding: 4px 8px !important;
+    font-size: 0.75rem !important;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+html[data-theme="base"] .theme-option.active {
+    background: #000080 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+/* Бейдж Java Edition */
+html[data-theme="base"] .badge {
+    background: #c0c0c0 !important;
+    color: #000 !important;
+    border: 1px solid #808080 !important;
+    box-shadow: none !important;
 }
 
 /* === Шапка === */
@@ -240,14 +517,15 @@ html.no-glass .glass-pill::before {
     border-bottom: 1px solid var(--border);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        0 6px 24px rgba(0, 0, 0, 0.4);
+        0 16px 48px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
     overflow: visible;
 }
 
 html.no-glass .header,
 html.no-glass .footer {
     background: var(--surface-strong);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8), 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 .header::after {
@@ -285,6 +563,12 @@ html.no-glass .footer {
     background-clip: text;
 }
 
+/* === Обёртка кнопки настроек === */
+.settings-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
 /* === Кнопка настроек === */
 .settings-btn {
     cursor: pointer;
@@ -304,26 +588,68 @@ html.no-glass .footer {
 .settings-menu {
     position: absolute;
     top: calc(100% + 10px);
-    right: 20px;
-    width: 280px;
+    right: 0;
+    width: 300px;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
     padding: 20px;
     border-radius: 18px;
     background: var(--menu-bg);
     z-index: 200;
-    display: flex;
+    display: none;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9), 0 8px 24px rgba(0, 0, 0, 0.7);
 }
 
-.settings-menu[hidden] {
-    display: none;
+.settings-menu:not([hidden]) {
+    display: flex;
+}
+
+/* === Шапка меню настроек === */
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
 }
 
 .settings-title {
     font-size: 1.05rem;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 4px;
+}
+
+.settings-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: var(--inner-bg);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 0.9rem;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.settings-close:hover {
+    background: rgba(229, 46, 113, 0.25);
+    border-color: rgba(229, 46, 113, 0.5);
+    color: var(--text);
+    transform: rotate(90deg);
+    box-shadow: 0 6px 18px rgba(229, 46, 113, 0.4);
+}
+
+.settings-close:active {
+    transform: rotate(90deg) scale(0.95);
 }
 
 .settings-row {
@@ -333,9 +659,46 @@ html.no-glass .footer {
     gap: 12px;
     font-size: 0.95rem;
     color: var(--text);
+    flex-wrap: wrap;
 }
 
-/* Переключатель (switch) */
+/* === Переключатель темы === */
+.theme-switch {
+    display: inline-flex;
+    flex-wrap: wrap;
+    border-radius: 9999px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--inner-bg);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+}
+
+.theme-option {
+    border: none;
+    background: none;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.theme-option:hover {
+    color: var(--text);
+}
+
+.theme-option.active {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* === Тумблеры === */
 .switch {
     appearance: none;
     -webkit-appearance: none;
@@ -348,6 +711,7 @@ html.no-glass .footer {
     transition: background 0.2s;
     border: 1px solid var(--border);
     flex-shrink: 0;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .switch::after {
@@ -360,7 +724,7 @@ html.no-glass .footer {
     border-radius: 50%;
     background: #fff;
     transition: transform 0.2s;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
 
 .switch:checked {
@@ -371,33 +735,37 @@ html.no-glass .footer {
     transform: translateX(20px);
 }
 
-/* Переключатель темы */
-.theme-switch {
-    display: inline-flex;
-    border-radius: 9999px;
-    overflow: hidden;
+.switch:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* === Кнопка сброса === */
+.reset-btn {
+    width: 100%;
     border: 1px solid var(--border);
     background: var(--inner-bg);
-}
-
-.theme-option {
-    border: none;
-    background: none;
-    color: var(--text-dim);
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 6px 12px;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-}
-
-.theme-option:hover {
     color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
 }
 
-.theme-option.active {
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    color: #fff;
+.reset-btn:hover {
+    background: rgba(229, 46, 113, 0.2);
+    border-color: rgba(229, 46, 113, 0.5);
+    color: var(--text);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 28px rgba(229, 46, 113, 0.4);
+}
+
+.reset-btn:active {
+    transform: translateY(0);
 }
 
 /* === Основной контент === */
@@ -461,21 +829,21 @@ main {
 .social-link.youtube:hover {
     background: rgba(255, 0, 51, 0.3);
     border-color: rgba(255, 0, 51, 0.5);
-    box-shadow: 0 8px 24px rgba(255, 0, 51, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(255, 0, 51, 0.5), 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     color: #fff;
 }
 
 .social-link.tiktok:hover {
     background: rgba(37, 244, 238, 0.2);
     border-color: rgba(37, 244, 238, 0.4);
-    box-shadow: 0 8px 24px rgba(37, 244, 238, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(37, 244, 238, 0.4), 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     color: #fff;
 }
 
 .social-link.telegram:hover {
     background: rgba(34, 158, 217, 0.3);
     border-color: rgba(34, 158, 217, 0.5);
-    box-shadow: 0 8px 24px rgba(34, 158, 217, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(34, 158, 217, 0.5), 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     color: #fff;
 }
 
@@ -483,7 +851,6 @@ main {
 .glass-section {
     border-radius: 24px;
     margin-bottom: 28px;
-    overflow: hidden;
 }
 
 .toggle-btn {
@@ -500,6 +867,7 @@ main {
     align-items: center;
     gap: 12px;
     transition: background 0.2s;
+    border-radius: 24px;
 }
 
 .toggle-btn:hover {
@@ -519,7 +887,7 @@ main {
 
 .section-content {
     padding: 0 28px 24px;
-    max-height: 1000px;
+    max-height: 2000px;
     overflow: hidden;
     transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.3s ease;
     opacity: 1;
@@ -532,23 +900,23 @@ main {
     opacity: 0;
 }
 
-.empty-state {
-    padding: 28px;
-    border-radius: 16px;
-    text-align: center;
-    color: var(--text-faint);
+/* === Списки элементов === */
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 /* === Новости === */
 .news-item {
     padding: 20px 24px;
     border-radius: 16px;
-    margin-bottom: 12px;
     border-left: 3px solid var(--accent);
-}
-
-.news-item:last-child {
-    margin-bottom: 0;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        0 16px 40px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 .news-meta {
@@ -566,6 +934,7 @@ main {
     padding: 5px 14px;
     border-radius: 9999px;
     border: 1px solid rgba(255, 179, 71, 0.2);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
 }
 
 .news-time {
@@ -582,15 +951,125 @@ main {
     font-size: 1rem;
 }
 
-/* === Реклама сервера === */
-.server-ad {
-    border-radius: 24px;
-    padding: 32px;
-    position: relative;
-    overflow: hidden;
+/* === Проекты === */
+.project-item {
+    padding: 20px 24px;
+    border-radius: 16px;
+    border-left: 3px solid var(--accent2);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        0 16px 40px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
-.server-ad::before {
+.project-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+}
+
+.project-desc {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+}
+
+.project-link {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 8px 18px;
+    border-radius: 9999px;
+}
+
+.project-link:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 107, 157, 0.25);
+    border-color: rgba(255, 107, 157, 0.5);
+    box-shadow: 0 16px 40px rgba(255, 107, 157, 0.5), 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* === Заглушка === */
+.empty-state {
+    padding: 28px;
+    border-radius: 16px;
+    text-align: center;
+    color: var(--text-faint);
+    border-left: 3px solid var(--border);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        0 16px 40px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* === Пагинация === */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.pagination[hidden] {
+    display: none;
+}
+
+.page-btn {
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    padding: 8px 18px;
+    border-radius: 9999px;
+}
+
+.page-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.page-info {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* === Реклама сервера === */
+.server-ad-inner {
+    position: relative;
+    border-radius: 16px;
+    padding: 24px;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.02) 100%
+        ),
+        var(--inner-bg);
+    border: 1px solid var(--inner-border);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        0 16px 40px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+.server-ad-inner::before {
     content: '';
     position: absolute;
     top: -60%;
@@ -602,9 +1081,9 @@ main {
     z-index: 0;
 }
 
-.server-ad > * {
+.server-ad-inner > * {
     position: relative;
-    z-index: 2;
+    z-index: 1;
 }
 
 .server-ad-header {
@@ -613,20 +1092,54 @@ main {
     gap: 14px;
     margin-bottom: 14px;
     flex-wrap: wrap;
-    position: relative;
-    z-index: 1;
 }
 
-.server-ad h2 {
-    font-size: 1.5rem;
+.server-desc {
+    color: var(--text-dim);
+    margin-bottom: 20px;
 }
 
-/* === Бейдж Java Edition ===
-   Бейдж использует glass-pill, но поверх него — зелёная плёнка,
-   чтобы сохранить зелёный цвет и одновременно получить блик стекла. */
+.server-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.info-card {
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        0 12px 32px rgba(0, 0, 0, 0.7),
+        0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 110px;
+}
+
+.info-value {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 1.05rem;
+    color: var(--accent);
+    flex: 1;
+}
+
+/* === Бейдж Java Edition === */
 .badge {
     position: relative;
     overflow: hidden;
+    display: inline-block;
     background:
         linear-gradient(
             180deg,
@@ -647,7 +1160,8 @@ main {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         inset 0 -1px 0 rgba(185, 246, 202, 0.1),
-        0 4px 16px rgba(0, 0, 0, 0.25);
+        0 8px 20px rgba(0, 0, 0, 0.6),
+        0 3px 8px rgba(0, 0, 0, 0.45);
 }
 
 .badge::before {
@@ -655,6 +1169,7 @@ main {
     position: absolute;
     inset: 0;
     background: var(--glare);
+    border-radius: inherit;
     pointer-events: none;
     z-index: 0;
 }
@@ -676,11 +1191,16 @@ html[data-theme="light"] .badge {
     border-color: rgba(27, 94, 32, 0.3);
     border-top-color: rgba(255, 255, 255, 0.9);
     border-bottom-color: rgba(27, 94, 32, 0.15);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(27, 94, 32, 0.05),
+        0 8px 20px rgba(0, 0, 0, 0.18),
+        0 3px 8px rgba(0, 0, 0, 0.12);
 }
 
 html.no-glass .badge {
     background: rgba(46, 125, 50, 0.5);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
 html.no-glass .badge::before {
@@ -690,46 +1210,6 @@ html.no-glass .badge::before {
 html[data-theme="light"].no-glass .badge,
 html[data-theme="light"] html.no-glass .badge {
     background: rgba(46, 125, 50, 0.18);
-}
-
-.server-desc {
-    color: var(--text-dim);
-    margin-bottom: 24px;
-    position: relative;
-    z-index: 1;
-}
-
-.server-info {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-bottom: 24px;
-    position: relative;
-    z-index: 1;
-}
-
-.info-card {
-    border-radius: 14px;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-}
-
-.info-label {
-    font-size: 0.85rem;
-    color: var(--text-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    min-width: 110px;
-}
-
-.info-value {
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 1.05rem;
-    color: var(--accent);
-    flex: 1;
 }
 
 .copy-btn {
@@ -743,6 +1223,7 @@ html[data-theme="light"] html.no-glass .badge {
 .copy-btn:hover {
     background: rgba(255, 138, 0, 0.3);
     border-color: rgba(255, 138, 0, 0.5);
+    box-shadow: 0 12px 28px rgba(255, 138, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .copy-btn.copied {
@@ -750,9 +1231,10 @@ html[data-theme="light"] html.no-glass .badge {
     border-color: rgba(46, 125, 50, 0.6);
 }
 
+/* === CTA-кнопка === */
 .cta-btn {
     display: inline-block;
-    color: #fff;
+    color: var(--cta-text);
     text-decoration: none;
     font-weight: 700;
     padding: 16px 32px;
@@ -765,8 +1247,20 @@ html[data-theme="light"] html.no-glass .badge {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         inset 0 -1px 0 rgba(255, 255, 255, 0.05),
-        0 8px 24px rgba(229, 46, 113, 0.3);
+        0 16px 40px rgba(229, 46, 113, 0.5),
+        0 6px 18px rgba(0, 0, 0, 0.6);
     transition: transform 0.2s, box-shadow 0.2s;
+}
+
+html[data-theme="light"] .cta-btn {
+    background: linear-gradient(135deg, rgba(255, 179, 71, 0.9), rgba(229, 46, 113, 0.85));
+    border-color: rgba(0, 0, 0, 0.12);
+    border-top-color: rgba(255, 255, 255, 0.6);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+        0 16px 40px rgba(229, 46, 113, 0.3),
+        0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 .cta-btn:hover {
@@ -774,7 +1268,16 @@ html[data-theme="light"] html.no-glass .badge {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         inset 0 -1px 0 rgba(255, 255, 255, 0.05),
-        0 12px 32px rgba(229, 46, 113, 0.45);
+        0 24px 56px rgba(229, 46, 113, 0.6),
+        0 10px 28px rgba(0, 0, 0, 0.7);
+}
+
+html[data-theme="light"] .cta-btn:hover {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+        0 24px 56px rgba(229, 46, 113, 0.45),
+        0 10px 28px rgba(0, 0, 0, 0.2);
 }
 
 /* === Футер === */
@@ -800,7 +1303,8 @@ html[data-theme="light"] html.no-glass .badge {
     border-top: 1px solid var(--border);
     box-shadow:
         inset 0 -1px 0 rgba(255, 255, 255, 0.2),
-        0 -6px 24px rgba(0, 0, 0, 0.4);
+        0 -16px 48px rgba(0, 0, 0, 0.8),
+        0 -6px 18px rgba(0, 0, 0, 0.6);
     overflow: visible;
 }
 
@@ -812,16 +1316,99 @@ html[data-theme="light"] html.no-glass .badge {
     opacity: 0.7;
 }
 
+/* === Тост «Скопировано» === */
+.toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-radius: 14px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    background: var(--menu-bg);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9), 0 8px 24px rgba(0, 0, 0, 0.7);
+}
+
+.toast.visible {
+    display: flex;
+}
+
+html[data-theme="base"] .toast {
+    background: #c0c0c0 !important;
+    border: 2px solid !important;
+    border-color: #ffffff #808080 #808080 #ffffff !important;
+    box-shadow: none !important;
+    color: #000 !important;
+}
+
+.toast-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.toast-text {
+    color: var(--text);
+}
+
+html[data-theme="base"] .toast-text {
+    color: #000 !important;
+}
+
+.toast-timer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 8px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+html[data-theme="base"] .toast-timer {
+    background: #000080 !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+
 /* === Адаптив === */
 @media (max-width: 600px) {
     main { padding-top: 0; }
     .hero { margin-top: 24px; padding: 28px 20px; }
     .hero h2 { font-size: 1.5rem; }
-    .server-ad { padding: 24px 20px; }
+    .server-ad-inner { padding: 20px; }
     .info-card { flex-direction: column; align-items: flex-start; }
     .info-label { min-width: auto; }
     .social-link { flex: 1 1 100%; justify-content: center; }
     .news-date { flex-direction: column; align-items: flex-start; gap: 2px; }
-    .settings-menu { right: 10px; left: 10px; width: auto; }
+    .settings-menu {
+        right: 0;
+        left: auto;
+        width: 280px;
+        max-width: calc(100vw - 32px);
+        max-height: calc(100vh - 90px);
+    }
     .settings-btn { padding: 9px 14px; font-size: 0.85rem; }
+    .pagination { gap: 8px; }
+    .page-btn { padding: 7px 14px; font-size: 0.85rem; }
+    .toast { right: 10px; bottom: 10px; left: 10px; justify-content: center; }
+    html[data-theme="base"] .theme-option { font-size: 0.7rem !important; padding: 3px 6px !important; }
+    .theme-option { font-size: 0.72rem; padding: 5px 8px; }
+}
+
+/* === Уважение к prefers-reduced-motion === */
+@media (prefers-reduced-motion: reduce) {
+    .settings-close {
+        transition: none;
+    }
 }

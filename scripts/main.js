@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // === Генерация случайных ярких точек на фоне (3–7 штук) ===
     const dotsContainer = document.getElementById('bgDots');
     if (dotsContainer) {
-        const count = Math.floor(Math.random() * 5) + 3; // 3..7
+        const count = Math.floor(Math.random() * 5) + 3;
         const colors = [
             'rgba(255, 179, 71, 0.9)',
             'rgba(255, 107, 157, 0.9)',
@@ -14,18 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < count; i++) {
             const dot = document.createElement('span');
             dot.className = 'bg-dot';
-
             const top = 5 + Math.random() * 90;
             const left = 5 + Math.random() * 90;
             const size = 180 + Math.random() * 180;
             const color = colors[Math.floor(Math.random() * colors.length)];
-
             dot.style.top = top + '%';
             dot.style.left = left + '%';
             dot.style.width = size + 'px';
             dot.style.height = size + 'px';
             dot.style.background = `radial-gradient(circle, ${color}, transparent 70%)`;
-
             dotsContainer.appendChild(dot);
         }
     }
@@ -43,8 +40,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    setupToggle('projectsToggle', 'projectsContent');
     setupToggle('newsToggle', 'newsContent');
+    setupToggle('projectsToggle', 'projectsContent');
+    setupToggle('serverToggle', 'serverContent');
+
+    // === Тост «Скопировано» с таймером ===
+    const toast = document.getElementById('copyToast');
+    const toastTimer = document.getElementById('copyToastTimer');
+    const TOAST_DURATION = 4;
+    let toastInterval = null;
+    let toastTimeout = null;
+
+    function showCopyToast() {
+        if (!toast || !toastTimer) return;
+
+        if (toastInterval) clearInterval(toastInterval);
+        if (toastTimeout) clearTimeout(toastTimeout);
+
+        let secondsLeft = TOAST_DURATION;
+        toastTimer.textContent = secondsLeft;
+        toast.classList.add('visible');
+
+        toastInterval = setInterval(() => {
+            secondsLeft -= 1;
+            if (secondsLeft > 0) {
+                toastTimer.textContent = secondsLeft;
+            }
+        }, 1000);
+
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('visible');
+            clearInterval(toastInterval);
+            toastInterval = null;
+            toastTimeout = null;
+        }, TOAST_DURATION * 1000);
+    }
 
     // === Копирование IP сервера ===
     const copyBtn = document.getElementById('copyIpBtn');
@@ -61,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     copyBtn.textContent = '📋';
                     copyBtn.classList.remove('copied');
                 }, 1500);
+                showCopyToast();
             } catch (err) {
                 const textarea = document.createElement('textarea');
                 textarea.value = ip;
@@ -70,38 +101,66 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.removeChild(textarea);
                 copyBtn.textContent = '✅';
                 setTimeout(() => copyBtn.textContent = '📋', 1500);
+                showCopyToast();
             }
         });
     }
 
-    // === НАСТРОЙКИ: тема и Liquid Glass с сохранением в localStorage ===
+    // === НАСТРОЙКИ ===
     const root = document.documentElement;
     const settingsBtn = document.getElementById('settingsBtn');
     const settingsMenu = document.getElementById('settingsMenu');
+    const settingsCloseBtn = document.getElementById('settingsCloseBtn');
     const glassToggle = document.getElementById('glassToggle');
+    const shadowsToggle = document.getElementById('shadowsToggle');
     const themeButtons = document.querySelectorAll('.theme-option');
+    const resetSettingsBtn = document.getElementById('resetSettingsBtn');
 
     const STORAGE_THEME = 'odeyalko_theme';
     const STORAGE_GLASS = 'odeyalko_glass';
+    const STORAGE_SHADOWS = 'odeyalko_shadows';
+    const DEFAULT_THEME = 'dark';
+    const DEFAULT_GLASS = 'on';
+    const DEFAULT_SHADOWS = 'on';
 
-    // Текущие значения
     function getTheme() {
-        return localStorage.getItem(STORAGE_THEME) || 'dark';
+        return localStorage.getItem(STORAGE_THEME) || DEFAULT_THEME;
     }
     function getGlass() {
         const v = localStorage.getItem(STORAGE_GLASS);
-        return v === null ? 'on' : v;
+        return v === null ? DEFAULT_GLASS : v;
+    }
+    function getShadows() {
+        const v = localStorage.getItem(STORAGE_SHADOWS);
+        return v === null ? DEFAULT_SHADOWS : v;
     }
 
-    // Применение темы
     function applyTheme(theme) {
         root.setAttribute('data-theme', theme);
         themeButtons.forEach(btn => {
             btn.classList.toggle('active', btn.dataset.themeValue === theme);
         });
+
+        const isBase = theme === 'base';
+        glassToggle.disabled = isBase;
+        shadowsToggle.disabled = isBase;
+
+        if (isBase) {
+            root.classList.add('no-glass', 'no-shadows');
+        } else {
+            if (getGlass() === 'off') {
+                root.classList.add('no-glass');
+            } else {
+                root.classList.remove('no-glass');
+            }
+            if (getShadows() === 'off') {
+                root.classList.add('no-shadows');
+            } else {
+                root.classList.remove('no-shadows');
+            }
+        }
     }
 
-    // Применение стекла
     function applyGlass(state) {
         if (state === 'off') {
             root.classList.add('no-glass');
@@ -111,9 +170,22 @@ document.addEventListener('DOMContentLoaded', () => {
         glassToggle.checked = state === 'on';
     }
 
-    // Инициализация из сохранённых значений
+    function applyShadows(state) {
+        if (state === 'off') {
+            root.classList.add('no-shadows');
+        } else {
+            root.classList.remove('no-shadows');
+        }
+        shadowsToggle.checked = state === 'on';
+    }
+
+    // Инициализация
+    glassToggle.checked = getGlass() === 'on';
+    shadowsToggle.checked = getShadows() === 'on';
     applyTheme(getTheme());
     applyGlass(getGlass());
+    applyShadows(getShadows());
+    applyTheme(getTheme());
 
     // Открытие/закрытие меню
     function closeMenu() {
@@ -131,7 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
         else closeMenu();
     });
 
-    // Клик вне меню — закрыть
+    settingsCloseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMenu();
+    });
+
     document.addEventListener('click', (e) => {
         if (!settingsMenu.hidden &&
             !settingsMenu.contains(e.target) &&
@@ -140,24 +216,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Esc — закрыть
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !settingsMenu.hidden) closeMenu();
     });
 
-    // Переключатель Liquid Glass
     glassToggle.addEventListener('change', () => {
         const state = glassToggle.checked ? 'on' : 'off';
         localStorage.setItem(STORAGE_GLASS, state);
         applyGlass(state);
     });
 
-    // Переключатель темы
+    shadowsToggle.addEventListener('change', () => {
+        const state = shadowsToggle.checked ? 'on' : 'off';
+        localStorage.setItem(STORAGE_SHADOWS, state);
+        applyShadows(state);
+    });
+
     themeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const theme = btn.dataset.themeValue;
             localStorage.setItem(STORAGE_THEME, theme);
             applyTheme(theme);
         });
+    });
+
+    resetSettingsBtn.addEventListener('click', () => {
+        localStorage.removeItem(STORAGE_THEME);
+        localStorage.removeItem(STORAGE_GLASS);
+        localStorage.removeItem(STORAGE_SHADOWS);
+        glassToggle.checked = DEFAULT_GLASS === 'on';
+        shadowsToggle.checked = DEFAULT_SHADOWS === 'on';
+        applyTheme(DEFAULT_THEME);
+        applyGlass(DEFAULT_GLASS);
+        applyShadows(DEFAULT_SHADOWS);
     });
 });
