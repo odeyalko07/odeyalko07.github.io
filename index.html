@@ -1,12 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello, World!</title>
+    <title>Главная</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script>
+        // Применяем сохранённые настройки ДО отрисовки, чтобы не было вспышки
+        (function () {
+            try {
+                var theme = localStorage.getItem('odeyalko_theme') || 'dark';
+                var glass = localStorage.getItem('odeyalko_glass');
+                if (glass === null) glass = 'on';
+                document.documentElement.setAttribute('data-theme', theme);
+                if (glass === 'off') {
+                    document.documentElement.classList.add('no-glass');
+                }
+            } catch (e) {}
+        })();
+    </script>
 </head>
 <body>
-    <h1>Hello, World!</h1>
+    <!-- Контейнер для случайных ярких точек (заполняется через JS) -->
+    <div class="bg-dots" id="bgDots" aria-hidden="true"></div>
+
+    <header class="header glass">
+        <div class="container header-inner">
+            <h1 class="logo">Odeyalko07_</h1>
+            <button class="settings-btn glass-pill" id="settingsBtn" aria-expanded="false" aria-controls="settingsMenu" title="Настройки">
+                ⚙️ Настройки
+            </button>
+        </div>
+
+        <!-- Всплывающее меню настроек -->
+        <div class="settings-menu glass" id="settingsMenu" hidden>
+            <h2 class="settings-title">Настройки</h2>
+
+            <label class="settings-row">
+                <span>Liquid Glass</span>
+                <input type="checkbox" id="glassToggle" class="switch">
+            </label>
+
+            <div class="settings-row">
+                <span>Тема</span>
+                <div class="theme-switch" role="group" aria-label="Тема">
+                    <button type="button" class="theme-option" data-theme-value="light">Светлая</button>
+                    <button type="button" class="theme-option" data-theme-value="dark">Тёмная</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Приветствие -->
+        <section class="hero glass">
+            <h2>Привет, я Odeyalko07_</h2>
+            <p>Добро пожаловать на мой личный сайт. Здесь я делюсь своими проектами и новостями.</p>
+
+            <!-- Соцсети -->
+            <div class="socials">
+                <a href="https://www.youtube.com/@odeyalko07" target="_blank" rel="noopener" class="social-link glass-pill youtube" title="YouTube">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                        <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>
+                    </svg>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://tiktok.com/@odeyalko07_" target="_blank" rel="noopener" class="social-link glass-pill tiktok" title="TikTok">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                        <path d="M19.6 6.3a5.6 5.6 0 0 1-3.4-1.1 5.6 5.6 0 0 1-2-3.2h-3.3v13.8a3 3 0 1 1-2.1-2.9V9.5a6.3 6.3 0 1 0 5.4 6.2V8.9a8.8 8.8 0 0 0 5.4 1.8V7.4a5.4 5.4 0 0 1 0-1.1z"/>
+                    </svg>
+                    <span>TikTok</span>
+                </a>
+                <a href="https://t.me/odeyalko07tg" target="_blank" rel="noopener" class="social-link glass-pill telegram" title="Telegram">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                        <path d="M11.9 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.6 8.2-1.9 8.9c-.1.6-.5.7-.9.5l-2.6-1.9-1.3 1.2c-.1.1-.3.2-.5.2l.2-2.6 4.8-4.3c.2-.2 0-.3-.3-.1l-5.9 3.7-2.6-.8c-.6-.2-.6-.6.1-.8l10-3.9c.5-.2.9.1.9.9z"/>
+                    </svg>
+                    <span>Telegram</span>
+                </a>
+                <a href="https://github.com/odeyalko07" target="_blank" rel="noopener" class="social-link glass-pill github" title="GitHub">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                        <path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-1.7c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.6 18.4.5 12 .5z"/>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Раздел новостей (сворачиваемый) -->
+        <section id="news" class="glass-section glass">
+            <button class="toggle-btn" id="newsToggle" aria-expanded="true">
+                <span class="toggle-icon">▼</span>
+                Новости
+            </button>
+            <div class="section-content" id="newsContent">
+                <article class="news-item glass-inner">
+                    <div class="news-meta">
+                        <span class="news-date">
+                            <span class="news-time">18:24 13.11.2026</span>
+                            <span class="news-tz">— Красноярское время (UTC +07:00)</span>
+                        </span>
+                    </div>
+                    <p class="news-text">Вкладка "Новости" готова!</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Раздел проектов (сворачиваемый) -->
+        <section id="projects" class="glass-section glass">
+            <button class="toggle-btn" id="projectsToggle" aria-expanded="true">
+                <span class="toggle-icon">▼</span>
+                Мои проекты
+            </button>
+            <div class="section-content" id="projectsContent">
+                <div class="empty-state glass-inner">
+                    <p>🚧 Пока здесь пусто. Скоро появятся мои проекты!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Реклама Minecraft-сервера -->
+        <section id="server" class="server-ad glass">
+            <div class="server-ad-header">
+                <h2>🎮 Мой Minecraft-сервер Pumpky</h2>
+                <span class="badge glass-pill">Java Edition</span>
+            </div>
+            <p class="server-desc">
+                Заходи на мой уютный ванильный сервер! Играем вместе, строим, исследуем мир.
+            </p>
+
+            <div class="server-info">
+                <div class="info-card glass-inner">
+                    <span class="info-label">IP сервера</span>
+                    <code class="info-value" id="serverIp">pumpky.vanilla.cool</code>
+                    <button class="copy-btn glass-pill" id="copyIpBtn" title="Скопировать IP">📋</button>
+                </div>
+                <div class="info-card glass-inner">
+                    <span class="info-label">Версия</span>
+                    <span class="info-value">Minecraft Java Edition 1.13.2 – 1.19.3</span>
+                </div>
+            </div>
+
+            <a href="https://pumpkymarket.trademc.org" target="_blank" rel="noopener" class="cta-btn glass-pill">
+                🛒 Перейти на сайт сервера
+            </a>
+        </section>
+    </main>
+
+    <footer class="footer glass">
+        <div class="container">
+            <p>© 2026 Odeyalko07_. Все права защищены. <span class="footer-tz">Время указано по Красноярску (UTC +07:00)</span></p>
+        </div>
+    </footer>
+
+    <script src="scripts/main.js"></script>
 </body>
 </html>

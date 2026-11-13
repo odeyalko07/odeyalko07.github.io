@@ -1,0 +1,827 @@
+/* === Базовые настройки === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* === Переменные темы: тёмная по умолчанию === */
+:root,
+html[data-theme="dark"] {
+    --bg: #0a0a10;
+    --text: #f0f0f5;
+    --text-dim: rgba(255, 255, 255, 0.7);
+    --text-faint: rgba(255, 255, 255, 0.5);
+    --accent: #ffb347;
+    --accent2: #ff6b9d;
+    --surface: rgba(22, 22, 32, 0.55);
+    --surface-strong: rgba(18, 18, 26, 0.72);
+    --border: rgba(255, 255, 255, 0.18);
+    --border-top: rgba(255, 255, 255, 0.28);
+    --border-bottom: rgba(255, 255, 255, 0.08);
+    --inner-bg: rgba(255, 255, 255, 0.04);
+    --inner-border: rgba(255, 255, 255, 0.12);
+    --pill-bg: rgba(255, 255, 255, 0.06);
+    --pill-border: rgba(255, 255, 255, 0.2);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.25);
+    --inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    --inset-bottom: inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+    --menu-bg: rgba(22, 22, 32, 0.96);
+    --glare: linear-gradient(
+        115deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.22) 45%,
+        rgba(255, 255, 255, 0.08) 55%,
+        transparent 70%
+    );
+}
+
+html[data-theme="light"] {
+    --bg: #eef0f5;
+    --text: #1a1a22;
+    --text-dim: rgba(20, 20, 30, 0.7);
+    --text-faint: rgba(20, 20, 30, 0.55);
+    --accent: #e07a1f;
+    --accent2: #d94d82;
+    --surface: rgba(255, 255, 255, 0.65);
+    --surface-strong: rgba(255, 255, 255, 0.85);
+    --border: rgba(0, 0, 0, 0.1);
+    --border-top: rgba(255, 255, 255, 0.9);
+    --border-bottom: rgba(0, 0, 0, 0.06);
+    --inner-bg: rgba(0, 0, 0, 0.03);
+    --inner-border: rgba(0, 0, 0, 0.08);
+    --pill-bg: rgba(255, 255, 255, 0.7);
+    --pill-border: rgba(0, 0, 0, 0.1);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+    --inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    --inset-bottom: inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+    --menu-bg: rgba(255, 255, 255, 0.97);
+    --glare: linear-gradient(
+        115deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.7) 45%,
+        rgba(255, 255, 255, 0.25) 55%,
+        transparent 70%
+    );
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* === Контейнер для случайных ярких точек === */
+.bg-dots {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.bg-dot {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+/* В светлой теме точки видны — приглушаем через mix-blend-mode,
+   чтобы они не «выжигали» глаза на светлом фоне */
+html[data-theme="light"] .bg-dot {
+    mix-blend-mode: multiply;
+    opacity: 0.85;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* === LIQUID GLASS ===
+   position: relative нужен, чтобы блик ::before позиционировался внутри блока. */
+.glass {
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.12) 0%,
+            rgba(255, 255, 255, 0.04) 40%,
+            rgba(255, 255, 255, 0.06) 100%
+        ),
+        var(--surface);
+    border: 1px solid var(--border);
+    border-top-color: var(--border-top);
+    border-bottom-color: var(--border-bottom);
+    box-shadow:
+        var(--inset-top),
+        var(--inset-bottom),
+        inset 1px 0 0 rgba(255, 255, 255, 0.06),
+        inset -1px 0 0 rgba(255, 255, 255, 0.06),
+        var(--shadow);
+}
+
+/* Статичный блик-«отражение» на стекле. Не анимируется, не лагает. */
+.glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glare);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Контент внутри стекла — поверх блика */
+.glass > * {
+    position: relative;
+    z-index: 1;
+}
+
+.glass-inner {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.03) 100%
+        ),
+        var(--inner-bg);
+    border: 1px solid var(--inner-border);
+    border-top-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.04);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.glass-pill {
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.14) 0%,
+            rgba(255, 255, 255, 0.05) 100%
+        ),
+        var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    border-top-color: rgba(255, 255, 255, 0.32);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+        0 4px 16px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.glass-pill::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glare);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.glass-pill > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* === Отключение Liquid Glass === */
+html.no-glass .glass,
+html.no-glass .glass-inner,
+html.no-glass .glass-pill {
+    background: var(--surface-strong);
+    backdrop-filter: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    border-color: var(--border);
+    border-top-color: var(--border);
+    border-bottom-color: var(--border);
+}
+
+/* Блики при отключённом стекле убираем */
+html.no-glass .glass::before,
+html.no-glass .glass-pill::before {
+    display: none;
+}
+
+/* === Шапка === */
+.header {
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-radius: 0 0 20px 20px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.03) 100%
+        ),
+        var(--surface-strong);
+    border-bottom: 1px solid var(--border);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 6px 24px rgba(0, 0, 0, 0.4);
+    overflow: visible;
+}
+
+html.no-glass .header,
+html.no-glass .footer {
+    background: var(--surface-strong);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 179, 71, 0.6) 20%,
+        rgba(255, 107, 157, 0.6) 50%,
+        rgba(255, 179, 71, 0.6) 80%,
+        transparent 100%
+    );
+    box-shadow: 0 0 12px rgba(255, 138, 0, 0.4);
+    pointer-events: none;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* === Кнопка настроек === */
+.settings-btn {
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 9999px;
+    white-space: nowrap;
+}
+
+.settings-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* === Всплывающее меню настроек === */
+.settings-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 20px;
+    width: 280px;
+    padding: 20px;
+    border-radius: 18px;
+    background: var(--menu-bg);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.settings-menu[hidden] {
+    display: none;
+}
+
+.settings-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text);
+}
+
+/* Переключатель (switch) */
+.switch {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 46px;
+    height: 26px;
+    border-radius: 9999px;
+    background: rgba(128, 128, 140, 0.4);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.switch::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.switch:checked {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+
+.switch:checked::after {
+    transform: translateX(20px);
+}
+
+/* Переключатель темы */
+.theme-switch {
+    display: inline-flex;
+    border-radius: 9999px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--inner-bg);
+}
+
+.theme-option {
+    border: none;
+    background: none;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.theme-option:hover {
+    color: var(--text);
+}
+
+.theme-option.active {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    color: #fff;
+}
+
+/* === Основной контент === */
+main {
+    flex: 1;
+    padding: 0 20px 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.hero {
+    text-align: center;
+    margin: 28px 0 32px 0;
+    padding: 40px 28px;
+    border-radius: 24px;
+}
+
+.hero h2 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero p {
+    color: var(--text-dim);
+    font-size: 1.05rem;
+}
+
+/* === Соцсети === */
+.socials {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.social-link svg {
+    flex-shrink: 0;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+}
+
+.social-link.youtube:hover {
+    background: rgba(255, 0, 51, 0.3);
+    border-color: rgba(255, 0, 51, 0.5);
+    box-shadow: 0 8px 24px rgba(255, 0, 51, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.social-link.tiktok:hover {
+    background: rgba(37, 244, 238, 0.2);
+    border-color: rgba(37, 244, 238, 0.4);
+    box-shadow: 0 8px 24px rgba(37, 244, 238, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.social-link.telegram:hover {
+    background: rgba(34, 158, 217, 0.3);
+    border-color: rgba(34, 158, 217, 0.5);
+    box-shadow: 0 8px 24px rgba(34, 158, 217, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* === Сворачиваемые секции === */
+.glass-section {
+    border-radius: 24px;
+    margin-bottom: 28px;
+    overflow: hidden;
+}
+
+.toggle-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text);
+    padding: 22px 28px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.toggle-btn:hover {
+    background: rgba(128, 128, 140, 0.1);
+}
+
+.toggle-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    color: var(--accent);
+    font-size: 0.9rem;
+}
+
+.toggle-btn[aria-expanded="false"] .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    padding: 0 28px 24px;
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+}
+
+.empty-state {
+    padding: 28px;
+    border-radius: 16px;
+    text-align: center;
+    color: var(--text-faint);
+}
+
+/* === Новости === */
+.news-item {
+    padding: 20px 24px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    border-left: 3px solid var(--accent);
+}
+
+.news-item:last-child {
+    margin-bottom: 0;
+}
+
+.news-meta {
+    margin-bottom: 10px;
+}
+
+.news-date {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(255, 179, 71, 0.15);
+    padding: 5px 14px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 179, 71, 0.2);
+}
+
+.news-time {
+    color: var(--accent);
+}
+
+.news-tz {
+    color: var(--text-faint);
+    font-weight: 500;
+}
+
+.news-text {
+    color: var(--text);
+    font-size: 1rem;
+}
+
+/* === Реклама сервера === */
+.server-ad {
+    border-radius: 24px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.server-ad::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    right: -15%;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(255, 138, 0, 0.25), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.server-ad > * {
+    position: relative;
+    z-index: 2;
+}
+
+.server-ad-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.server-ad h2 {
+    font-size: 1.5rem;
+}
+
+/* === Бейдж Java Edition ===
+   Бейдж использует glass-pill, но поверх него — зелёная плёнка,
+   чтобы сохранить зелёный цвет и одновременно получить блик стекла. */
+.badge {
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.18) 0%,
+            rgba(255, 255, 255, 0.04) 100%
+        ),
+        rgba(46, 125, 50, 0.5);
+    color: #b9f6ca;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    border: 1px solid rgba(185, 246, 202, 0.35);
+    border-top-color: rgba(255, 255, 255, 0.4);
+    border-bottom-color: rgba(185, 246, 202, 0.15);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(185, 246, 202, 0.1),
+        0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.badge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glare);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.badge > * {
+    position: relative;
+    z-index: 1;
+}
+
+html[data-theme="light"] .badge {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.6) 0%,
+            rgba(255, 255, 255, 0.2) 100%
+        ),
+        rgba(46, 125, 50, 0.18);
+    color: #1b5e20;
+    border-color: rgba(27, 94, 32, 0.3);
+    border-top-color: rgba(255, 255, 255, 0.9);
+    border-bottom-color: rgba(27, 94, 32, 0.15);
+}
+
+html.no-glass .badge {
+    background: rgba(46, 125, 50, 0.5);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+html.no-glass .badge::before {
+    display: none;
+}
+
+html[data-theme="light"].no-glass .badge,
+html[data-theme="light"] html.no-glass .badge {
+    background: rgba(46, 125, 50, 0.18);
+}
+
+.server-desc {
+    color: var(--text-dim);
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.server-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.info-card {
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 110px;
+}
+
+.info-value {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 1.05rem;
+    color: var(--accent);
+    flex: 1;
+}
+
+.copy-btn {
+    padding: 8px 14px;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.copy-btn:hover {
+    background: rgba(255, 138, 0, 0.3);
+    border-color: rgba(255, 138, 0, 0.5);
+}
+
+.copy-btn.copied {
+    background: rgba(46, 125, 50, 0.4);
+    border-color: rgba(46, 125, 50, 0.6);
+}
+
+.cta-btn {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 16px 32px;
+    border-radius: 9999px;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, rgba(255, 138, 0, 0.7), rgba(229, 46, 113, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-top-color: rgba(255, 255, 255, 0.4);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+        0 8px 24px rgba(229, 46, 113, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+        0 12px 32px rgba(229, 46, 113, 0.45);
+}
+
+/* === Футер === */
+.footer {
+    margin-top: 15px;
+    padding: 24px 0;
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 0.9rem;
+    border-radius: 20px 20px 0 0;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    position: relative;
+    z-index: 1;
+    background:
+        linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.03) 100%
+        ),
+        var(--surface-strong);
+    border-top: 1px solid var(--border);
+    box-shadow:
+        inset 0 -1px 0 rgba(255, 255, 255, 0.2),
+        0 -6px 24px rgba(0, 0, 0, 0.4);
+    overflow: visible;
+}
+
+.footer-tz {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    opacity: 0.7;
+}
+
+/* === Адаптив === */
+@media (max-width: 600px) {
+    main { padding-top: 0; }
+    .hero { margin-top: 24px; padding: 28px 20px; }
+    .hero h2 { font-size: 1.5rem; }
+    .server-ad { padding: 24px 20px; }
+    .info-card { flex-direction: column; align-items: flex-start; }
+    .info-label { min-width: auto; }
+    .social-link { flex: 1 1 100%; justify-content: center; }
+    .news-date { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .settings-menu { right: 10px; left: 10px; width: auto; }
+    .settings-btn { padding: 9px 14px; font-size: 0.85rem; }
+}
