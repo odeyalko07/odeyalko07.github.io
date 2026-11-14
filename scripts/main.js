@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     applyShadows(getShadows());
     applyTheme(getTheme());
 
-    // Открытие/закрытие меню
+    // Открытие/закрытие меню настроек
     function closeMenu() {
         settingsMenu.hidden = true;
         settingsBtn.setAttribute('aria-expanded', 'false');
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (devOverlay) devOverlay.hidden = true;
     }
 
-    // ВЫНОСИМ В ГЛОБАЛЬНУЮ ОБЛАСТЬ ВИДИМОСТИ
+    // ВЫНОСИМ В ГЛОБАЛЬНУЮ ОБЛАСТЬ ВИДИМОСТИ ДЛЯ КОНСОЛИ
     window.openDevMenu = openDevMenu;
     window.closeDevMenu = closeDevMenu;
 
