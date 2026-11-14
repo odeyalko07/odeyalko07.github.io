@@ -34,7 +34,7 @@
         <div class="container header-inner">
             <div class="logo-wrap">
                 <img src="images/favicon.jpg" alt="Логотип" class="logo-img">
-                <h1 class="logo">Odeyalko07_</h1>
+                <h1 class="logo" id="logoSecret">Odeyalko07_</h1>
             </div>
 
             <!-- Обёртка: кнопка настроек + меню -->
@@ -131,6 +131,25 @@
                         </div>
                         <p class="news-text">Вкладка "Новости" готова!</p>
                     </article>
+                    <article class="news-item glass-inner">
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <span class="news-time">13:04 14.11.2026</span>
+                                <span class="news-tz">— Красноярское время (UTC +07:00)</span>
+                            </span>
+                        </div>
+                        <p class="news-text">Добавлен первый проект, а так же</p>
+                        <p class="news-text">Готова финальная версия сайта.</p>
+                    </article>
+                    <article class="news-item glass-inner">
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <span class="news-time">13:22 14.11.2026</span>
+                                <span class="news-tz">— Красноярское время (UTC +07:00)</span>
+                            </span>
+                        </div>
+                        <p class="news-text">Сайт полностью готов и выгружен!</p>
+                    </article>
                 </div>
                 <div class="pagination" id="newsPagination" hidden>
                     <button type="button" class="page-btn glass-pill" id="newsPrev" disabled>← Назад</button>
@@ -148,23 +167,13 @@
             </button>
             <div class="section-content" id="projectsContent">
                 <div class="items-list" id="projectsList">
-                    <!-- Заглушка: удали этот блок, когда появятся реальные проекты -->
-                    <div class="empty-state glass-inner">
-                        <p>🚧 Пока здесь пусто. Скоро появятся мои проекты!</p>
-                    </div>
-
-                    <!--
-                    ШАБЛОН ПРОЕКТА — скопируй этот блок и вставь ниже, чтобы добавить новый проект.
-                    Замени title, описание и ссылку на свои.
-
+                    <!-- Первый проект -->
                     <article class="project-item glass-inner">
-                        <h3 class="project-title">Название проекта</h3>
-                        <p class="project-desc">Краткое описание проекта — что это и зачем.</p>
-                        <a href="https://example.com" target="_blank" rel="noopener" class="project-link glass-pill">
-                            Перейти →
+                        <h3 class="project-title">Lost Lotus</h3>
+                        <a href="https://github.com/odeyalko07/lostlotus/releases" target="_blank" rel="noopener" class="project-link glass-pill">
+                            Перейти к релизам →
                         </a>
                     </article>
-                    -->
                 </div>
                 <div class="pagination" id="projectsPagination" hidden>
                     <button type="button" class="page-btn glass-pill" id="projectsPrev" disabled>← Назад</button>
@@ -220,6 +229,27 @@
         <span class="toast-icon">✅</span>
         <span class="toast-text">Скопировано</span>
         <span class="toast-timer" id="copyToastTimer">4</span>
+    </div>
+
+    <!-- Секретное меню разработчика (открывается 5 кликами по логотипу) -->
+    <div class="dev-overlay" id="devOverlay" hidden>
+        <div class="dev-menu glass" id="devMenu">
+            <div class="dev-header">
+                <h2 class="dev-title">Меню разработчика</h2>
+                <button type="button" class="dev-close" id="devCloseBtn" title="Закрыть">✕</button>
+            </div>
+            <div class="dev-body">
+                <div class="dev-stat">
+                    <span class="dev-stat-label">Всего новостей</span>
+                    <span class="dev-stat-value" id="devNewsCount">0</span>
+                </div>
+                <div class="dev-stat">
+                    <span class="dev-stat-label">Всего проектов</span>
+                    <span class="dev-stat-value" id="devProjectsCount">0</span>
+                </div>
+            </div>
+            <button type="button" class="dev-close-btn glass-pill" id="devCloseBtn2">Закрыть</button>
+        </div>
     </div>
 
     <script src="scripts/main.js"></script>

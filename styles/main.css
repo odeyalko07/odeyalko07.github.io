@@ -264,7 +264,10 @@ html.no-shadows .toast-timer,
 html.no-shadows .settings-close,
 html.no-shadows .reset-btn,
 html.no-shadows .switch,
-html.no-shadows .theme-switch {
+html.no-shadows .theme-switch,
+html.no-shadows .dev-menu,
+html.no-shadows .dev-close,
+html.no-shadows .dev-close-btn {
     box-shadow: none !important;
 }
 
@@ -311,7 +314,8 @@ html[data-theme="base"] .server-ad-inner,
 html[data-theme="base"] .news-item,
 html[data-theme="base"] .project-item,
 html[data-theme="base"] .empty-state,
-html[data-theme="base"] .info-card {
+html[data-theme="base"] .info-card,
+html[data-theme="base"] .dev-menu {
     background: #c0c0c0 !important;
     border: 2px solid !important;
     border-color: #ffffff #808080 #808080 #ffffff !important;
@@ -335,7 +339,8 @@ html[data-theme="base"] .header::after {
 }
 
 html[data-theme="base"] .logo,
-html[data-theme="base"] .hero h2 {
+html[data-theme="base"] .hero h2,
+html[data-theme="base"] .dev-title {
     background: none !important;
     -webkit-text-fill-color: #000 !important;
     color: #000 !important;
@@ -349,12 +354,14 @@ html[data-theme="base"] .news-tz,
 html[data-theme="base"] .info-label,
 html[data-theme="base"] .footer,
 html[data-theme="base"] .footer-tz,
-html[data-theme="base"] .empty-state {
+html[data-theme="base"] .empty-state,
+html[data-theme="base"] .dev-stat-label {
     color: #000 !important;
 }
 
 html[data-theme="base"] .info-value,
-html[data-theme="base"] .news-time {
+html[data-theme="base"] .news-time,
+html[data-theme="base"] .dev-stat-value {
     color: #000080 !important;
     font-family: 'Courier New', monospace;
 }
@@ -376,7 +383,9 @@ html[data-theme="base"] .copy-btn,
 html[data-theme="base"] .settings-close,
 html[data-theme="base"] .social-link,
 html[data-theme="base"] .project-link,
-html[data-theme="base"] .cta-btn {
+html[data-theme="base"] .cta-btn,
+html[data-theme="base"] .dev-close,
+html[data-theme="base"] .dev-close-btn {
     background: #c0c0c0 !important;
     color: #000 !important;
     border: 2px solid !important;
@@ -397,7 +406,9 @@ html[data-theme="base"] .copy-btn:active,
 html[data-theme="base"] .settings-close:active,
 html[data-theme="base"] .social-link:active,
 html[data-theme="base"] .project-link:active,
-html[data-theme="base"] .cta-btn:active {
+html[data-theme="base"] .cta-btn:active,
+html[data-theme="base"] .dev-close:active,
+html[data-theme="base"] .dev-close-btn:active {
     border-color: #808080 #ffffff #ffffff #808080 !important;
     transform: none !important;
 }
@@ -412,7 +423,9 @@ html[data-theme="base"] .copy-btn:hover,
 html[data-theme="base"] .settings-close:hover,
 html[data-theme="base"] .social-link:hover,
 html[data-theme="base"] .project-link:hover,
-html[data-theme="base"] .cta-btn:hover {
+html[data-theme="base"] .cta-btn:hover,
+html[data-theme="base"] .dev-close:hover,
+html[data-theme="base"] .dev-close-btn:hover {
     background: #c0c0c0 !important;
     color: #000 !important;
     transform: none !important;
@@ -567,6 +580,9 @@ html.no-glass .footer {
     border-radius: 8px;
     object-fit: cover;
     flex-shrink: 0;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .logo {
@@ -576,6 +592,10 @@ html.no-glass .footer {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    /* Маскировка под обычный текст: курсор-палочка, не выделяется */
+    cursor: text;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 html[data-theme="base"] .logo-img {
@@ -986,14 +1006,8 @@ main {
 .project-title {
     font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--text);
-}
-
-.project-desc {
-    color: var(--text-dim);
-    font-size: 0.95rem;
     margin-bottom: 14px;
+    color: var(--text);
 }
 
 .project-link {
@@ -1399,6 +1413,116 @@ html[data-theme="base"] .toast-timer {
     background: #000080 !important;
     color: #fff !important;
     box-shadow: none !important;
+}
+
+/* === Меню разработчика === */
+.dev-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.dev-overlay:not([hidden]) {
+    display: flex;
+}
+
+.dev-menu {
+    width: 320px;
+    max-width: 100%;
+    border-radius: 20px;
+    padding: 22px;
+    background: var(--menu-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9), 0 8px 24px rgba(0, 0, 0, 0.7);
+}
+
+.dev-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.dev-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.dev-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: var(--inner-bg);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.dev-close:hover {
+    background: rgba(229, 46, 113, 0.25);
+    border-color: rgba(229, 46, 113, 0.5);
+    color: var(--text);
+    transform: rotate(90deg);
+}
+
+.dev-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dev-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: var(--inner-bg);
+    border: 1px solid var(--inner-border);
+    font-size: 0.95rem;
+}
+
+.dev-stat-label {
+    color: var(--text-dim);
+}
+
+.dev-stat-value {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.15rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.dev-close-btn {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--inner-bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.dev-close-btn:hover {
+    background: rgba(229, 46, 113, 0.2);
+    border-color: rgba(229, 46, 113, 0.5);
+    transform: translateY(-1px);
 }
 
 /* === Адаптив === */

@@ -27,6 +27,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // === СОРТИРОВКА НОВОСТЕЙ ПО ДАТЕ (новые сверху) ===
+    (function sortNewsByDate() {
+        const newsList = document.getElementById('newsList');
+        if (!newsList) return;
+
+        const items = Array.from(newsList.querySelectorAll('.news-item'));
+        if (items.length < 2) return;
+
+        function parseNewsDate(item) {
+            const timeEl = item.querySelector('.news-time');
+            if (!timeEl) return 0;
+
+            const text = timeEl.textContent.trim();
+            const match = text.match(/(\d{1,2}):(\d{2})\s+(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+            if (!match) return 0;
+
+            const [, hh, mm, dd, mo, yyyy] = match;
+            return new Date(
+                parseInt(yyyy, 10),
+                parseInt(mo, 10) - 1,
+                parseInt(dd, 10),
+                parseInt(hh, 10),
+                parseInt(mm, 10)
+            ).getTime();
+        }
+
+        items.sort((a, b) => parseNewsDate(b) - parseNewsDate(a));
+        items.forEach(item => newsList.appendChild(item));
+    })();
+
     // === Универсальная функция для сворачиваемых секций ===
     function setupToggle(buttonId, contentId) {
         const toggleBtn = document.getElementById(buttonId);
@@ -249,5 +279,70 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTheme(DEFAULT_THEME);
         applyGlass(DEFAULT_GLASS);
         applyShadows(DEFAULT_SHADOWS);
+    });
+
+    // === СЕКРЕТНОЕ МЕНЮ РАЗРАБОТЧИКА (5 кликов по логотипу) ===
+    const logoSecret = document.getElementById('logoSecret');
+    const devOverlay = document.getElementById('devOverlay');
+    const devCloseBtn = document.getElementById('devCloseBtn');
+    const devCloseBtn2 = document.getElementById('devCloseBtn2');
+    const devNewsCount = document.getElementById('devNewsCount');
+    const devProjectsCount = document.getElementById('devProjectsCount');
+
+    let logoClickCount = 0;
+    let firstClickTime = 0;
+    const LOGO_CLICK_WINDOW = 2000;
+
+    if (logoSecret) {
+        logoSecret.addEventListener('click', () => {
+            const now = Date.now();
+
+            if (logoClickCount === 0 || (now - firstClickTime > LOGO_CLICK_WINDOW)) {
+                logoClickCount = 1;
+                firstClickTime = now;
+                return;
+            }
+
+            logoClickCount++;
+
+            if (logoClickCount >= 5) {
+                logoClickCount = 0;
+                firstClickTime = 0;
+                openDevMenu();
+            }
+        });
+    }
+
+    function openDevMenu() {
+        if (!devOverlay) return;
+
+        const newsItems = document.querySelectorAll('#newsList .news-item').length;
+        const projectItems = document.querySelectorAll('#projectsList .project-item').length;
+
+        if (devNewsCount) devNewsCount.textContent = newsItems;
+        if (devProjectsCount) devProjectsCount.textContent = projectItems;
+
+        devOverlay.hidden = false;
+    }
+
+    function closeDevMenu() {
+        if (devOverlay) devOverlay.hidden = true;
+    }
+
+    // ВЫНОСИМ В ГЛОБАЛЬНУЮ ОБЛАСТЬ ВИДИМОСТИ
+    window.openDevMenu = openDevMenu;
+    window.closeDevMenu = closeDevMenu;
+
+    if (devCloseBtn) devCloseBtn.addEventListener('click', closeDevMenu);
+    if (devCloseBtn2) devCloseBtn2.addEventListener('click', closeDevMenu);
+
+    if (devOverlay) {
+        devOverlay.addEventListener('click', (e) => {
+            if (e.target === devOverlay) closeDevMenu();
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && devOverlay && !devOverlay.hidden) closeDevMenu();
     });
 });
