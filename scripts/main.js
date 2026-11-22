@@ -238,13 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeMenu();
     });
 
-    document.addEventListener('click', (e) => {
-        if (!settingsMenu.hidden &&
-            !settingsMenu.contains(e.target) &&
-            !settingsBtn.contains(e.target)) {
-            closeMenu();
-        }
-    });
+    // Обработчик клика вне меню настроек удалён — закрывается только по крестику или Esc
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !settingsMenu.hidden) closeMenu();
@@ -285,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoSecret = document.getElementById('logoSecret');
     const devOverlay = document.getElementById('devOverlay');
     const devCloseBtn = document.getElementById('devCloseBtn');
-    const devCloseBtn2 = document.getElementById('devCloseBtn2');
     const devNewsCount = document.getElementById('devNewsCount');
     const devProjectsCount = document.getElementById('devProjectsCount');
 
@@ -329,18 +322,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (devOverlay) devOverlay.hidden = true;
     }
 
-    // ВЫНОСИМ В ГЛОБАЛЬНУЮ ОБЛАСТЬ ВИДИМОСТИ ДЛЯ КОНСОЛИ
     window.openDevMenu = openDevMenu;
     window.closeDevMenu = closeDevMenu;
 
     if (devCloseBtn) devCloseBtn.addEventListener('click', closeDevMenu);
-    if (devCloseBtn2) devCloseBtn2.addEventListener('click', closeDevMenu);
 
-    if (devOverlay) {
-        devOverlay.addEventListener('click', (e) => {
-            if (e.target === devOverlay) closeDevMenu();
-        });
-    }
+    // Обработчик клика вне меню разработчика удалён — закрывается только по крестику или Esc
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && devOverlay && !devOverlay.hidden) closeDevMenu();
