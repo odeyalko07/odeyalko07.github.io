@@ -43,31 +43,25 @@ html[data-theme="light"] {
     --text-faint: rgba(20, 20, 30, 0.55);
     --accent: #e07a1f;
     --accent2: #d94d82;
-    
-    --surface: rgba(255, 255, 255, 0.75);
-    --surface-strong: rgba(255, 255, 255, 0.92);
-    
-    --border: rgba(0, 0, 0, 0.12);
-    --border-top: rgba(255, 255, 255, 0.95);
-    --border-bottom: rgba(0, 0, 0, 0.08);
-    
-    --inner-bg: rgba(255, 255, 255, 0.5);
+    --surface: rgba(255, 255, 255, 0.65);
+    --surface-strong: rgba(255, 255, 255, 0.85);
+    --border: rgba(0, 0, 0, 0.1);
+    --border-top: rgba(255, 255, 255, 0.9);
+    --border-bottom: rgba(0, 0, 0, 0.06);
+    --inner-bg: rgba(0, 0, 0, 0.03);
     --inner-border: rgba(0, 0, 0, 0.08);
-    --pill-bg: rgba(255, 255, 255, 0.8);
-    --pill-border: rgba(0, 0, 0, 0.12);
-    
-    --shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.08);
-    --inset-top: inset 0 1px 0 rgba(255, 255, 255, 1);
+    --pill-bg: rgba(255, 255, 255, 0.7);
+    --pill-border: rgba(0, 0, 0, 0.1);
+    --shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.15);
+    --inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.9);
     --inset-bottom: inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-    
-    --menu-bg: rgba(255, 255, 255, 0.98);
-    
+    --menu-bg: rgba(255, 255, 255, 0.97);
     --glare: linear-gradient(
         115deg,
-        transparent 20%,
-        rgba(255, 255, 255, 0.9) 40%,
-        rgba(255, 255, 255, 0.4) 60%,
-        transparent 80%
+        transparent 30%,
+        rgba(255, 255, 255, 0.7) 45%,
+        rgba(255, 255, 255, 0.25) 55%,
+        transparent 70%
     );
     --cta-text: #1a1a22;
 }
@@ -150,9 +144,9 @@ html[data-theme="base"] .bg-dots {
     background:
         linear-gradient(
             135deg,
-            rgba(255, 255, 255, 0.15) 0%,
-            rgba(255, 255, 255, 0.05) 40%,
-            rgba(255, 255, 255, 0.08) 100%
+            rgba(255, 255, 255, 0.12) 0%,
+            rgba(255, 255, 255, 0.04) 40%,
+            rgba(255, 255, 255, 0.06) 100%
         ),
         var(--surface);
     border: 1px solid var(--border);
@@ -161,8 +155,8 @@ html[data-theme="base"] .bg-dots {
     box-shadow:
         var(--inset-top),
         var(--inset-bottom),
-        inset 1px 0 0 rgba(255, 255, 255, 0.15),
-        inset -1px 0 0 rgba(255, 255, 255, 0.15),
+        inset 1px 0 0 rgba(255, 255, 255, 0.06),
+        inset -1px 0 0 rgba(255, 255, 255, 0.06),
         var(--shadow);
 }
 
@@ -185,18 +179,18 @@ html[data-theme="base"] .bg-dots {
     background:
         linear-gradient(
             135deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0.04) 100%
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.03) 100%
         ),
         var(--inner-bg);
     border: 1px solid var(--inner-border);
-    border-top-color: rgba(255, 255, 255, 0.3);
-    border-bottom-color: rgba(0, 0, 0, 0.1);
+    border-top-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.04);
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.25),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.05),
-        0 12px 32px rgba(0, 0, 0, 0.15),
-        0 4px 12px rgba(0, 0, 0, 0.08);
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        0 12px 32px rgba(0, 0, 0, 0.7),
+        0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .glass-pill {
@@ -204,18 +198,18 @@ html[data-theme="base"] .bg-dots {
     background:
         linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.2) 0%,
-            rgba(255, 255, 255, 0.08) 100%
+            rgba(255, 255, 255, 0.14) 0%,
+            rgba(255, 255, 255, 0.05) 100%
         ),
         var(--pill-bg);
     border: 1px solid var(--pill-border);
-    border-top-color: rgba(255, 255, 255, 0.6);
-    border-bottom-color: rgba(0, 0, 0, 0.1);
+    border-top-color: rgba(255, 255, 255, 0.32);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.05),
-        0 8px 24px rgba(0, 0, 0, 0.15),
-        0 3px 10px rgba(0, 0, 0, 0.08);
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+        0 8px 24px rgba(0, 0, 0, 0.7),
+        0 3px 10px rgba(0, 0, 0, 0.5);
     transition: transform 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -240,7 +234,7 @@ html.no-glass .glass-inner,
 html.no-glass .glass-pill {
     background: var(--surface-strong);
     backdrop-filter: none;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5);
     border-color: var(--border);
     border-top-color: var(--border);
     border-bottom-color: var(--border);
@@ -272,7 +266,8 @@ html.no-shadows .reset-btn,
 html.no-shadows .switch,
 html.no-shadows .theme-switch,
 html.no-shadows .dev-menu,
-html.no-shadows .dev-close {
+html.no-shadows .dev-close,
+html.no-shadows .dev-close-btn {
     box-shadow: none !important;
 }
 
@@ -389,7 +384,8 @@ html[data-theme="base"] .settings-close,
 html[data-theme="base"] .social-link,
 html[data-theme="base"] .project-link,
 html[data-theme="base"] .cta-btn,
-html[data-theme="base"] .dev-close {
+html[data-theme="base"] .dev-close,
+html[data-theme="base"] .dev-close-btn {
     background: #c0c0c0 !important;
     color: #000 !important;
     border: 2px solid !important;
@@ -411,7 +407,8 @@ html[data-theme="base"] .settings-close:active,
 html[data-theme="base"] .social-link:active,
 html[data-theme="base"] .project-link:active,
 html[data-theme="base"] .cta-btn:active,
-html[data-theme="base"] .dev-close:active {
+html[data-theme="base"] .dev-close:active,
+html[data-theme="base"] .dev-close-btn:active {
     border-color: #808080 #ffffff #ffffff #808080 !important;
     transform: none !important;
 }
@@ -427,7 +424,8 @@ html[data-theme="base"] .settings-close:hover,
 html[data-theme="base"] .social-link:hover,
 html[data-theme="base"] .project-link:hover,
 html[data-theme="base"] .cta-btn:hover,
-html[data-theme="base"] .dev-close:hover {
+html[data-theme="base"] .dev-close:hover,
+html[data-theme="base"] .dev-close-btn:hover {
     background: #c0c0c0 !important;
     color: #000 !important;
     transform: none !important;
@@ -525,22 +523,22 @@ html[data-theme="base"] .badge {
     background:
         linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.15) 0%,
-            rgba(255, 255, 255, 0.05) 100%
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.03) 100%
         ),
         var(--surface-strong);
     border-bottom: 1px solid var(--border);
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.25),
-        0 16px 48px rgba(0, 0, 0, 0.15),
-        0 6px 18px rgba(0, 0, 0, 0.08);
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 16px 48px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
     overflow: visible;
 }
 
 html.no-glass .header,
 html.no-glass .footer {
     background: var(--surface-strong);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15), 0 6px 18px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8), 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 .header::after {
@@ -594,6 +592,7 @@ html.no-glass .footer {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    /* Маскировка под обычный текст: курсор-палочка, не выделяется */
     cursor: text;
     user-select: none;
     -webkit-user-select: none;
@@ -641,7 +640,7 @@ html[data-theme="base"] .logo-img {
     display: none;
     flex-direction: column;
     gap: 14px;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9), 0 8px 24px rgba(0, 0, 0, 0.7);
 }
 
 .settings-menu:not([hidden]) {
@@ -678,7 +677,7 @@ html[data-theme="base"] .logo-img {
     cursor: pointer;
     flex-shrink: 0;
     transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .settings-close:hover {
@@ -686,7 +685,7 @@ html[data-theme="base"] .logo-img {
     border-color: rgba(229, 46, 113, 0.5);
     color: var(--text);
     transform: rotate(90deg);
-    box-shadow: 0 6px 18px rgba(229, 46, 113, 0.2);
+    box-shadow: 0 6px 18px rgba(229, 46, 113, 0.4);
 }
 
 .settings-close:active {
@@ -711,7 +710,7 @@ html[data-theme="base"] .logo-img {
     overflow: hidden;
     border: 1px solid var(--border);
     background: var(--inner-bg);
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
     max-width: 100%;
 }
 
@@ -736,7 +735,7 @@ html[data-theme="base"] .logo-img {
 .theme-option.active {
     background: linear-gradient(90deg, var(--accent), var(--accent2));
     color: #fff;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* === Тумблеры === */
@@ -752,7 +751,7 @@ html[data-theme="base"] .logo-img {
     transition: background 0.2s;
     border: 1px solid var(--border);
     flex-shrink: 0;
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .switch::after {
@@ -765,7 +764,7 @@ html[data-theme="base"] .logo-img {
     border-radius: 50%;
     background: #fff;
     transition: transform 0.2s;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
 
 .switch:checked {
@@ -794,7 +793,7 @@ html[data-theme="base"] .logo-img {
     border-radius: 12px;
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
 }
 
 .reset-btn:hover {
@@ -802,7 +801,7 @@ html[data-theme="base"] .logo-img {
     border-color: rgba(229, 46, 113, 0.5);
     color: var(--text);
     transform: translateY(-1px);
-    box-shadow: 0 10px 28px rgba(229, 46, 113, 0.2);
+    box-shadow: 0 10px 28px rgba(229, 46, 113, 0.4);
 }
 
 .reset-btn:active {
@@ -870,21 +869,21 @@ main {
 .social-link.youtube:hover {
     background: rgba(255, 0, 51, 0.3);
     border-color: rgba(255, 0, 51, 0.5);
-    box-shadow: 0 16px 40px rgba(255, 0, 51, 0.3), 0 6px 18px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(255, 0, 51, 0.5), 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     color: #fff;
 }
 
 .social-link.tiktok:hover {
     background: rgba(37, 244, 238, 0.2);
     border-color: rgba(37, 244, 238, 0.4);
-    box-shadow: 0 16px 40px rgba(37, 244, 238, 0.2), 0 6px 18px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(37, 244, 238, 0.4), 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     color: #fff;
 }
 
 .social-link.telegram:hover {
     background: rgba(34, 158, 217, 0.3);
     border-color: rgba(34, 158, 217, 0.5);
-    box-shadow: 0 16px 40px rgba(34, 158, 217, 0.3), 0 6px 18px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(34, 158, 217, 0.5), 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     color: #fff;
 }
 
@@ -946,7 +945,6 @@ main {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding-top: 10px; /* Отступ между заголовком и первым элементом */
 }
 
 /* === Новости === */
@@ -957,8 +955,8 @@ main {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.16),
         inset 0 -1px 0 rgba(255, 255, 255, 0.03),
-        0 16px 40px rgba(0, 0, 0, 0.2),
-        0 6px 18px rgba(0, 0, 0, 0.1);
+        0 16px 40px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 .news-meta {
@@ -976,7 +974,7 @@ main {
     padding: 5px 14px;
     border-radius: 9999px;
     border: 1px solid rgba(255, 179, 71, 0.2);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
 }
 
 .news-time {
@@ -1001,8 +999,8 @@ main {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.16),
         inset 0 -1px 0 rgba(255, 255, 255, 0.03),
-        0 16px 40px rgba(0, 0, 0, 0.2),
-        0 6px 18px rgba(0, 0, 0, 0.1);
+        0 16px 40px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 .project-title {
@@ -1026,7 +1024,7 @@ main {
     transform: translateY(-2px);
     background: rgba(255, 107, 157, 0.25);
     border-color: rgba(255, 107, 157, 0.5);
-    box-shadow: 0 16px 40px rgba(255, 107, 157, 0.2), 0 6px 18px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(255, 107, 157, 0.5), 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* === Заглушка === */
@@ -1039,8 +1037,8 @@ main {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.12),
         inset 0 -1px 0 rgba(255, 255, 255, 0.03),
-        0 16px 40px rgba(0, 0, 0, 0.2),
-        0 6px 18px rgba(0, 0, 0, 0.1);
+        0 16px 40px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 /* === Пагинация === */
@@ -1089,21 +1087,20 @@ main {
     position: relative;
     border-radius: 16px;
     padding: 24px;
-    padding-top: 34px; /* Отступ между заголовком и контентом (24 + 10) */
     overflow: hidden;
     background:
         linear-gradient(
             135deg,
-            rgba(255, 255, 255, 0.12) 0%,
-            rgba(255, 255, 255, 0.04) 100%
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.02) 100%
         ),
         var(--inner-bg);
     border: 1px solid var(--inner-border);
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.05),
-        0 16px 40px rgba(0, 0, 0, 0.2),
-        0 6px 18px rgba(0, 0, 0, 0.1);
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        0 16px 40px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 .server-ad-inner::before {
@@ -1113,7 +1110,7 @@ main {
     right: -15%;
     width: 350px;
     height: 350px;
-    background: radial-gradient(circle, rgba(255, 138, 0, 0.2), transparent 70%);
+    background: radial-gradient(circle, rgba(255, 138, 0, 0.25), transparent 70%);
     pointer-events: none;
     z-index: 0;
 }
@@ -1153,8 +1150,8 @@ main {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.16),
         inset 0 -1px 0 rgba(255, 255, 255, 0.03),
-        0 12px 32px rgba(0, 0, 0, 0.2),
-        0 4px 12px rgba(0, 0, 0, 0.1);
+        0 12px 32px rgba(0, 0, 0, 0.7),
+        0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .info-label {
@@ -1180,8 +1177,8 @@ main {
     background:
         linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.2) 0%,
-            rgba(255, 255, 255, 0.05) 100%
+            rgba(255, 255, 255, 0.18) 0%,
+            rgba(255, 255, 255, 0.04) 100%
         ),
         rgba(46, 125, 50, 0.5);
     color: #b9f6ca;
@@ -1197,8 +1194,8 @@ main {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         inset 0 -1px 0 rgba(185, 246, 202, 0.1),
-        0 8px 20px rgba(0, 0, 0, 0.2),
-        0 3px 8px rgba(0, 0, 0, 0.1);
+        0 8px 20px rgba(0, 0, 0, 0.6),
+        0 3px 8px rgba(0, 0, 0, 0.45);
 }
 
 .badge::before {
@@ -1231,13 +1228,13 @@ html[data-theme="light"] .badge {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.9),
         inset 0 -1px 0 rgba(27, 94, 32, 0.05),
-        0 8px 20px rgba(0, 0, 0, 0.1),
-        0 3px 8px rgba(0, 0, 0, 0.05);
+        0 8px 20px rgba(0, 0, 0, 0.18),
+        0 3px 8px rgba(0, 0, 0, 0.12);
 }
 
 html.no-glass .badge {
     background: rgba(46, 125, 50, 0.5);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
 html.no-glass .badge::before {
@@ -1260,7 +1257,7 @@ html[data-theme="light"] html.no-glass .badge {
 .copy-btn:hover {
     background: rgba(255, 138, 0, 0.3);
     border-color: rgba(255, 138, 0, 0.5);
-    box-shadow: 0 12px 28px rgba(255, 138, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 28px rgba(255, 138, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .copy-btn.copied {
@@ -1284,8 +1281,8 @@ html[data-theme="light"] html.no-glass .badge {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         inset 0 -1px 0 rgba(255, 255, 255, 0.05),
-        0 16px 40px rgba(229, 46, 113, 0.3),
-        0 6px 18px rgba(0, 0, 0, 0.2);
+        0 16px 40px rgba(229, 46, 113, 0.5),
+        0 6px 18px rgba(0, 0, 0, 0.6);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -1296,8 +1293,8 @@ html[data-theme="light"] .cta-btn {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.5),
         inset 0 -1px 0 rgba(0, 0, 0, 0.06),
-        0 16px 40px rgba(229, 46, 113, 0.2),
-        0 6px 18px rgba(0, 0, 0, 0.1);
+        0 16px 40px rgba(229, 46, 113, 0.3),
+        0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 .cta-btn:hover {
@@ -1305,16 +1302,16 @@ html[data-theme="light"] .cta-btn {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         inset 0 -1px 0 rgba(255, 255, 255, 0.05),
-        0 24px 56px rgba(229, 46, 113, 0.4),
-        0 10px 28px rgba(0, 0, 0, 0.3);
+        0 24px 56px rgba(229, 46, 113, 0.6),
+        0 10px 28px rgba(0, 0, 0, 0.7);
 }
 
 html[data-theme="light"] .cta-btn:hover {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.6),
         inset 0 -1px 0 rgba(0, 0, 0, 0.06),
-        0 24px 56px rgba(229, 46, 113, 0.3),
-        0 10px 28px rgba(0, 0, 0, 0.15);
+        0 24px 56px rgba(229, 46, 113, 0.45),
+        0 10px 28px rgba(0, 0, 0, 0.2);
 }
 
 /* === Футер === */
@@ -1333,15 +1330,15 @@ html[data-theme="light"] .cta-btn:hover {
     background:
         linear-gradient(
             0deg,
-            rgba(255, 255, 255, 0.15) 0%,
-            rgba(255, 255, 255, 0.05) 100%
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.03) 100%
         ),
         var(--surface-strong);
     border-top: 1px solid var(--border);
     box-shadow:
         inset 0 -1px 0 rgba(255, 255, 255, 0.2),
-        0 -16px 48px rgba(0, 0, 0, 0.15),
-        0 -6px 18px rgba(0, 0, 0, 0.08);
+        0 -16px 48px rgba(0, 0, 0, 0.8),
+        0 -6px 18px rgba(0, 0, 0, 0.6);
     overflow: visible;
 }
 
@@ -1368,7 +1365,7 @@ html[data-theme="light"] .cta-btn:hover {
     font-size: 0.95rem;
     font-weight: 600;
     background: var(--menu-bg);
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9), 0 8px 24px rgba(0, 0, 0, 0.7);
 }
 
 .toast.visible {
@@ -1409,7 +1406,7 @@ html[data-theme="base"] .toast-text {
     font-size: 0.8rem;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
 }
 
 html[data-theme="base"] .toast-timer {
@@ -1443,7 +1440,7 @@ html[data-theme="base"] .toast-timer {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9), 0 8px 24px rgba(0, 0, 0, 0.7);
 }
 
 .dev-header {
@@ -1508,12 +1505,32 @@ html[data-theme="base"] .toast-timer {
     font-variant-numeric: tabular-nums;
 }
 
+.dev-close-btn {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--inner-bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.dev-close-btn:hover {
+    background: rgba(229, 46, 113, 0.2);
+    border-color: rgba(229, 46, 113, 0.5);
+    transform: translateY(-1px);
+}
+
 /* === Адаптив === */
 @media (max-width: 600px) {
     main { padding-top: 0; }
     .hero { margin-top: 24px; padding: 28px 20px; }
     .hero h2 { font-size: 1.5rem; }
-    .server-ad-inner { padding: 20px; padding-top: 30px; }
+    .server-ad-inner { padding: 20px; }
     .info-card { flex-direction: column; align-items: flex-start; }
     .info-label { min-width: auto; }
     .social-link { flex: 1 1 100%; justify-content: center; }
